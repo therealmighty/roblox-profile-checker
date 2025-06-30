@@ -37,11 +37,12 @@
     #output {
       white-space: pre-wrap;
       margin-top: 20px;
-      background: #ffffff;
+      background: #fff;
       padding: 15px;
       border-radius: 8px;
       border: 1px solid #ddd;
-      min-height: 100px;
+      min-height: 120px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -80,18 +81,19 @@
       const badges = await safeFetch(`${backendURL}/api/badges/${userId}`);
       const presence = await safeFetch(`${backendURL}/api/presence/${userId}`);
       const followers = await safeFetch(`${backendURL}/api/followers/${userId}`);
+      const groups = await safeFetch(`${backendURL}/api/groups/${userId}`);
 
       let extraInfo = "\n\n";
 
       if (friends && !friends.error) {
-        extraInfo += `🔹 Friends Count: ${friends.count || 0}\n`;
+        extraInfo += `🔹 Friends Count: ${friends.count ?? 0}\n`;
       } else {
-        extraInfo += "🔹 Friends Count: Error fetching\n";
+        extraInfo += "🔹 Friends Count: Unable to fetch\n";
       }
 
       if (badges && !badges.error) {
-        extraInfo += `\n🔹 Badges (${badges.data.length}):\n`;
-        if (badges.data.length) {
+        extraInfo += `\n🔹 Badges (${badges.data?.length ?? 0}):\n`;
+        if (badges.data && badges.data.length > 0) {
           badges.data.slice(0, 5).forEach(badge => {
             extraInfo += ` - ${badge.name}\n`;
           });
@@ -100,20 +102,33 @@
           extraInfo += " - None\n";
         }
       } else {
-        extraInfo += "\n🔹 Badges: Error fetching\n";
+        extraInfo += "\n🔹 Badges: Unable to fetch\n";
       }
 
       if (presence && !presence.error) {
-        const presenceData = presence.userPresences && presence.userPresences[0];
+        const presenceData = presence.userPresences?.[0];
         extraInfo += `\n🔹 Presence: ${presenceData ? (presenceData.userPresenceType === 0 ? "Offline" : "Online") : "Unknown"}\n`;
       } else {
-        extraInfo += "\n🔹 Presence: Error fetching\n";
+        extraInfo += "\n🔹 Presence: Unable to fetch\n";
       }
 
       if (followers && !followers.error) {
-        extraInfo += `\n🔹 Followers: ${followers.count || 0}\n`;
+        extraInfo += `\n🔹 Followers: ${followers.count ?? 0}\n`;
       } else {
-        extraInfo += "\n🔹 Followers: Error fetching\n";
+        extraInfo += "\n🔹 Followers: Unable to fetch\n";
+      }
+
+      if (groups && !groups.error) {
+        extraInfo += `\n🔹 Last 10 Joined Groups:\n`;
+        if (groups.data && groups.data.length > 0) {
+          groups.data.forEach(group => {
+            extraInfo += ` - ${group.group.name} (Role: ${group.role.name}) Joined: ${new Date(group.joinDate).toLocaleDateString()}\n`;
+          });
+        } else {
+          extraInfo += " - None\n";
+        }
+      } else {
+        extraInfo += "\n🔹 Groups: Unable to fetch\n";
       }
 
       output.textContent += extraInfo;
@@ -130,7 +145,7 @@
       }
 
       try {
-        // Step 1: Get user ID from backend
+        // Get user ID
         const userData = await fetchJSON(`${backendURL}/api/userid`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -144,7 +159,7 @@
 
         const userId = userData.data[0].id;
 
-        // Step 2: Get user info (basic)
+        // Get user info
         const userInfo = await fetchJSON(`${backendURL}/api/user/${userId}`);
 
         if (userInfo.error) {
@@ -152,7 +167,6 @@
           return;
         }
 
-        // Step 3: Format and display output (without groups)
         let result = `🧾 Display Name: ${userInfo.displayName}
 🔢 User ID: ${userInfo.id}
 📄 Bio: ${userInfo.description || "None"}
@@ -160,7 +174,7 @@
 
         output.textContent = result;
 
-        // Step 4: Fetch and append extra info
+        // Fetch extra info
         await fetchExtraInfo(userId);
 
       } catch (err) {
