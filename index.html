@@ -64,6 +64,54 @@
       return res.json();
     }
 
+    async function fetchExtraInfo(userId) {
+      const output = document.getElementById("output");
+      try {
+        const [avatar, friends, badges, status, presence, followers] = await Promise.all([
+          fetchJSON(`${backendURL}/api/avatar/${userId}`),
+          fetchJSON(`${backendURL}/api/friends/${userId}`),
+          fetchJSON(`${backendURL}/api/badges/${userId}`),
+          fetchJSON(`${backendURL}/api/status/${userId}`),
+          fetchJSON(`${backendURL}/api/presence/${userId}`),
+          fetchJSON(`${backendURL}/api/followers/${userId}`)
+        ]);
+
+        let extraInfo = "\n\n🔹 Avatar Assets:\n";
+        if (avatar.data && avatar.data.length) {
+          avatar.data.forEach(item => {
+            extraInfo += ` - ${item.name}\n`;
+          });
+        } else {
+          extraInfo += " - None\n";
+        }
+
+        extraInfo += `\n🔹 Friends Count: ${friends.count || 0}\n`;
+
+        extraInfo += `\n🔹 Badges (${badges.data.length}):\n`;
+        if (badges.data.length) {
+          badges.data.slice(0, 5).forEach(badge => {
+            extraInfo += ` - ${badge.name}\n`;
+          });
+          if (badges.data.length > 5) extraInfo += ` ...and more\n`;
+        } else {
+          extraInfo += " - None\n";
+        }
+
+        extraInfo += `\n🔹 Status: ${status.status || "No status"}\n`;
+
+        const presenceData = presence.userPresences && presence.userPresences[0];
+        extraInfo += `\n🔹 Presence: ${presenceData ? (presenceData.userPresenceType === 0 ? "Offline" : "Online") : "Unknown"}\n`;
+
+        extraInfo += `\n🔹 Followers: ${followers.count || 0}\n`;
+
+        output.textContent += extraInfo;
+
+      } catch (err) {
+        output.textContent += "\n\nError fetching extra info.";
+        console.error(err);
+      }
+    }
+
     async function search() {
       const username = document.getElementById("username").value.trim();
       const output = document.getElementById("output");
@@ -89,29 +137,19 @@
 
         const userId = userData.data[0].id;
 
-        // Step 2: Get user info and groups from backend
-        const [userInfo, groupInfo] = await Promise.all([
-          fetchJSON(`${backendURL}/api/user/${userId}`),
-          fetchJSON(`${backendURL}/api/groups/${userId}`)
-        ]);
+        // Step 2: Get user info (basic)
+        const userInfo = await fetchJSON(`${backendURL}/api/user/${userId}`);
 
-        // Step 3: Format and display output
+        // Step 3: Format and display output (without groups)
         let result = `🧾 Display Name: ${userInfo.displayName}
 🔢 User ID: ${userInfo.id}
 📄 Bio: ${userInfo.description || "None"}
-📅 Account Created: ${new Date(userInfo.created).toLocaleDateString()}
-
-👥 Groups:\n`;
-
-        if (!groupInfo.data || groupInfo.data.length === 0) {
-          result += " - None";
-        } else {
-          groupInfo.data.slice(0, 5).forEach(g => {
-            result += ` - ${g.group.name} (${g.role.name})\n`;
-          });
-        }
+📅 Account Created: ${new Date(userInfo.created).toLocaleDateString()}`;
 
         output.textContent = result;
+
+        // Step 4: Fetch and append extra info
+        await fetchExtraInfo(userId);
 
       } catch (err) {
         output.textContent = `Error fetching data: ${err.message}`;
@@ -121,3 +159,4 @@
   </script>
 </body>
 </html>
+
