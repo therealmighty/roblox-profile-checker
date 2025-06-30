@@ -123,7 +123,7 @@
         if (groups.data && groups.data.length > 0) {
           groups.data.forEach(g => {
             extraInfo += ` - ${g.group.name}\n`;
-            extraInfo += `   Description: ${g.group.description || "None"}\n`;
+            // description removed
             extraInfo += `   Members: ${g.group.memberCount}\n`;
             extraInfo += `   Created: ${new Date(g.group.created).toLocaleDateString()}\n`;
             extraInfo += `   Owner: ${g.group.owner.username || "Unknown"} (ID: ${g.group.owner.userId || "Unknown"})\n`;
