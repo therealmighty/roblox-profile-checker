@@ -67,25 +67,14 @@
     async function fetchExtraInfo(userId) {
       const output = document.getElementById("output");
       try {
-        const [avatar, friends, badges, status, presence, followers] = await Promise.all([
-          fetchJSON(`${backendURL}/api/avatar/${userId}`),
+        const [friends, badges, presence, followers] = await Promise.all([
           fetchJSON(`${backendURL}/api/friends/${userId}`),
           fetchJSON(`${backendURL}/api/badges/${userId}`),
-          fetchJSON(`${backendURL}/api/status/${userId}`),
           fetchJSON(`${backendURL}/api/presence/${userId}`),
           fetchJSON(`${backendURL}/api/followers/${userId}`)
         ]);
 
-        let extraInfo = "\n\n🔹 Avatar Assets:\n";
-        if (avatar.data && avatar.data.length) {
-          avatar.data.forEach(item => {
-            extraInfo += ` - ${item.name}\n`;
-          });
-        } else {
-          extraInfo += " - None\n";
-        }
-
-        extraInfo += `\n🔹 Friends Count: ${friends.count || 0}\n`;
+        let extraInfo = `\n\n🔹 Friends Count: ${friends.count || 0}\n`;
 
         extraInfo += `\n🔹 Badges (${badges.data.length}):\n`;
         if (badges.data.length) {
@@ -96,8 +85,6 @@
         } else {
           extraInfo += " - None\n";
         }
-
-        extraInfo += `\n🔹 Status: ${status.status || "No status"}\n`;
 
         const presenceData = presence.userPresences && presence.userPresences[0];
         extraInfo += `\n🔹 Presence: ${presenceData ? (presenceData.userPresenceType === 0 ? "Offline" : "Online") : "Unknown"}\n`;
@@ -134,6 +121,31 @@
           output.textContent = "User not found.";
           return;
         }
+
+        const userId = userData.data[0].id;
+
+        // Step 2: Get user info (basic)
+        const userInfo = await fetchJSON(`${backendURL}/api/user/${userId}`);
+
+        // Step 3: Format and display output (without groups)
+        let result = `🧾 Display Name: ${userInfo.displayName}
+🔢 User ID: ${userInfo.id}
+📄 Bio: ${userInfo.description || "None"}
+📅 Account Created: ${new Date(userInfo.created).toLocaleDateString()}`;
+
+        output.textContent = result;
+
+        // Step 4: Fetch and append extra info
+        await fetchExtraInfo(userId);
+
+      } catch (err) {
+        output.textContent = `Error fetching data: ${err.message}`;
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
 
         const userId = userData.data[0].id;
 
