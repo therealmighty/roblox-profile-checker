@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roblox Profile Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    input, button {
+      font-size: 16px;
+      padding: 10px;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #output {
+      white-space: pre-wrap;
+      margin-top: 20px;
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h2>🔍 Roblox Profile Checker</h2>
+  <label for="username">Insert Roblox Username:</label>
+  <input type="text" id="username" placeholder="e.g. Builderman" />
+  <button onclick="search()">Search</button>
+
+  <div id="output"></div>
+
+  <script>
+    async function search() {
+      const username = document.getElementById("username").value.trim();
+      const output = document.getElementById("output");
+      output.textContent = "Fetching info...";
+
+      if (!username) {
+        output.textContent = "Please enter a username.";
+        return;
+      }
+
+      try {
+        // Step 1: Get user ID
+        const res = await fetch("https://users.roblox.com/v1/usernames/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ usernames: [username] }),
+        });
+
+        const userData = await res.json();
+        if (!userData.data || userData.data.length === 0) {
+          output.textContent = "User not found.";
+          return;
+        }
+
+        const userId = userData.data[0].id;
+
+        // Step 2: Get profile info + group info in parallel
+        const [userInfo, groupInfo] = await Promise.all([
+          fetch(`https://users.roblox.com/v1/users/${userId}`).then(r => r.json()),
+          fetch(`https://groups.roblox.com/v2/users/${userId}/groups/roles`).then(r => r.json())
+        ]);
+
+        // Step 3: Format output
+        let result = `🧾 Display Name: ${userInfo.displayName}
+🔢 User ID: ${userInfo.id}
+📄 Bio: ${userInfo.description || "None"}
+📅 Account Created: ${new Date(userInfo.created).toLocaleDateString()}
+
+👥 Groups:\n`;
+
+        if (groupInfo.data.length === 0) {
+          result += " - None";
+        } else {
+          groupInfo.data.slice(0, 5).forEach(g => {
+            result += ` - ${g.group.name} (${g.role.name})\n`;
+          });
+        }
+
+        output.textContent = result;
+
+      } catch (err) {
+        output.textContent = "Error fetching data.";
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
