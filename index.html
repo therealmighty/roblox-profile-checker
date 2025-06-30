@@ -64,39 +64,59 @@
       return res.json();
     }
 
+    async function safeFetch(url) {
+      try {
+        return await fetchJSON(url);
+      } catch (e) {
+        console.error(`Error fetching ${url}:`, e);
+        return null;
+      }
+    }
+
     async function fetchExtraInfo(userId) {
       const output = document.getElementById("output");
-      try {
-        const [friends, badges, presence, followers] = await Promise.all([
-          fetchJSON(`${backendURL}/api/friends/${userId}`),
-          fetchJSON(`${backendURL}/api/badges/${userId}`),
-          fetchJSON(`${backendURL}/api/presence/${userId}`),
-          fetchJSON(`${backendURL}/api/followers/${userId}`)
-        ]);
 
-        let extraInfo = `\n\n🔹 Friends Count: ${friends.count || 0}\n`;
+      const friends = await safeFetch(`${backendURL}/api/friends/${userId}`);
+      const badges = await safeFetch(`${backendURL}/api/badges/${userId}`);
+      const presence = await safeFetch(`${backendURL}/api/presence/${userId}`);
+      const followers = await safeFetch(`${backendURL}/api/followers/${userId}`);
 
+      let extraInfo = "\n\n";
+
+      if (friends && !friends.error) {
+        extraInfo += `🔹 Friends Count: ${friends.count || 0}\n`;
+      } else {
+        extraInfo += "🔹 Friends Count: Error fetching\n";
+      }
+
+      if (badges && !badges.error) {
         extraInfo += `\n🔹 Badges (${badges.data.length}):\n`;
         if (badges.data.length) {
           badges.data.slice(0, 5).forEach(badge => {
             extraInfo += ` - ${badge.name}\n`;
           });
-          if (badges.data.length > 5) extraInfo += ` ...and more\n`;
+          if (badges.data.length > 5) extraInfo += " ...and more\n";
         } else {
           extraInfo += " - None\n";
         }
+      } else {
+        extraInfo += "\n🔹 Badges: Error fetching\n";
+      }
 
+      if (presence && !presence.error) {
         const presenceData = presence.userPresences && presence.userPresences[0];
         extraInfo += `\n🔹 Presence: ${presenceData ? (presenceData.userPresenceType === 0 ? "Offline" : "Online") : "Unknown"}\n`;
-
-        extraInfo += `\n🔹 Followers: ${followers.count || 0}\n`;
-
-        output.textContent += extraInfo;
-
-      } catch (err) {
-        output.textContent += "\n\nError fetching extra info.";
-        console.error(err);
+      } else {
+        extraInfo += "\n🔹 Presence: Error fetching\n";
       }
+
+      if (followers && !followers.error) {
+        extraInfo += `\n🔹 Followers: ${followers.count || 0}\n`;
+      } else {
+        extraInfo += "\n🔹 Followers: Error fetching\n";
+      }
+
+      output.textContent += extraInfo;
     }
 
     async function search() {
@@ -127,30 +147,10 @@
         // Step 2: Get user info (basic)
         const userInfo = await fetchJSON(`${backendURL}/api/user/${userId}`);
 
-        // Step 3: Format and display output (without groups)
-        let result = `🧾 Display Name: ${userInfo.displayName}
-🔢 User ID: ${userInfo.id}
-📄 Bio: ${userInfo.description || "None"}
-📅 Account Created: ${new Date(userInfo.created).toLocaleDateString()}`;
-
-        output.textContent = result;
-
-        // Step 4: Fetch and append extra info
-        await fetchExtraInfo(userId);
-
-      } catch (err) {
-        output.textContent = `Error fetching data: ${err.message}`;
-        console.error(err);
-      }
-    }
-  </script>
-</body>
-</html>
-
-        const userId = userData.data[0].id;
-
-        // Step 2: Get user info (basic)
-        const userInfo = await fetchJSON(`${backendURL}/api/user/${userId}`);
+        if (userInfo.error) {
+          output.textContent = "Error fetching user info.";
+          return;
+        }
 
         // Step 3: Format and display output (without groups)
         let result = `🧾 Display Name: ${userInfo.displayName}
@@ -171,4 +171,3 @@
   </script>
 </body>
 </html>
-
