@@ -119,10 +119,16 @@
       }
 
       if (groups && !groups.error) {
-        extraInfo += `\n🔹 Last 10 Joined Groups:\n`;
+        extraInfo += `\n🔹 Last 5 Joined Groups (with details):\n`;
         if (groups.data && groups.data.length > 0) {
-          groups.data.forEach(group => {
-            extraInfo += ` - ${group.group.name} (Role: ${group.role.name}) Joined: ${new Date(group.joinDate).toLocaleDateString()}\n`;
+          groups.data.forEach(g => {
+            extraInfo += ` - ${g.group.name}\n`;
+            extraInfo += `   Description: ${g.group.description || "None"}\n`;
+            extraInfo += `   Members: ${g.group.memberCount}\n`;
+            extraInfo += `   Created: ${new Date(g.group.created).toLocaleDateString()}\n`;
+            extraInfo += `   Owner: ${g.group.owner.username || "Unknown"} (ID: ${g.group.owner.userId || "Unknown"})\n`;
+            extraInfo += `   Your Role: ${g.role.name}\n`;
+            extraInfo += `   Joined: ${new Date(g.joinDate).toLocaleDateString()}\n\n`;
           });
         } else {
           extraInfo += " - None\n";
@@ -145,7 +151,6 @@
       }
 
       try {
-        // Get user ID
         const userData = await fetchJSON(`${backendURL}/api/userid`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -159,7 +164,6 @@
 
         const userId = userData.data[0].id;
 
-        // Get user info
         const userInfo = await fetchJSON(`${backendURL}/api/user/${userId}`);
 
         if (userInfo.error) {
@@ -174,7 +178,6 @@
 
         output.textContent = result;
 
-        // Fetch extra info
         await fetchExtraInfo(userId);
 
       } catch (err) {
