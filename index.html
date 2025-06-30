@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Roblox Profile Checker</title>
   <style>
     body {
@@ -41,6 +41,7 @@
       padding: 15px;
       border-radius: 8px;
       border: 1px solid #ddd;
+      min-height: 100px;
     }
   </style>
 </head>
@@ -53,6 +54,8 @@
   <div id="output"></div>
 
   <script>
+    const corsProxy = "https://corsproxy.io/?";
+
     async function search() {
       const username = document.getElementById("username").value.trim();
       const output = document.getElementById("output");
@@ -64,8 +67,7 @@
       }
 
       try {
-        // Step 1: Get user ID
-        const res = await fetch("https://users.roblox.com/v1/usernames/users", {
+        const res = await fetch(corsProxy + "https://users.roblox.com/v1/usernames/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ usernames: [username] }),
@@ -79,13 +81,11 @@
 
         const userId = userData.data[0].id;
 
-        // Step 2: Get profile info + group info in parallel
         const [userInfo, groupInfo] = await Promise.all([
-          fetch(`https://users.roblox.com/v1/users/${userId}`).then(r => r.json()),
-          fetch(`https://groups.roblox.com/v2/users/${userId}/groups/roles`).then(r => r.json())
+          fetch(corsProxy + `https://users.roblox.com/v1/users/${userId}`).then(r => r.json()),
+          fetch(corsProxy + `https://groups.roblox.com/v2/users/${userId}/groups/roles`).then(r => r.json())
         ]);
 
-        // Step 3: Format output
         let result = `🧾 Display Name: ${userInfo.displayName}
 🔢 User ID: ${userInfo.id}
 📄 Bio: ${userInfo.description || "None"}
