@@ -54,7 +54,7 @@
   <div id="output"></div>
 
   <script>
-    const corsProxy = "https://corsproxy.io/?";
+    const backendURL = "https://roblox-backend-rugl.onrender.com";
 
     async function search() {
       const username = document.getElementById("username").value.trim();
@@ -67,7 +67,8 @@
       }
 
       try {
-        const res = await fetch(corsProxy + "https://users.roblox.com/v1/usernames/users", {
+        // Step 1: Get user ID from backend
+        const res = await fetch(`${backendURL}/api/userid`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ usernames: [username] }),
@@ -81,11 +82,13 @@
 
         const userId = userData.data[0].id;
 
+        // Step 2: Get user info and groups from backend
         const [userInfo, groupInfo] = await Promise.all([
-          fetch(corsProxy + `https://users.roblox.com/v1/users/${userId}`).then(r => r.json()),
-          fetch(corsProxy + `https://groups.roblox.com/v2/users/${userId}/groups/roles`).then(r => r.json())
+          fetch(`${backendURL}/api/user/${userId}`).then(r => r.json()),
+          fetch(`${backendURL}/api/groups/${userId}`).then(r => r.json())
         ]);
 
+        // Step 3: Format and display output
         let result = `🧾 Display Name: ${userInfo.displayName}
 🔢 User ID: ${userInfo.id}
 📄 Bio: ${userInfo.description || "None"}
@@ -93,7 +96,7 @@
 
 👥 Groups:\n`;
 
-        if (groupInfo.data.length === 0) {
+        if (!groupInfo.data || groupInfo.data.length === 0) {
           result += " - None";
         } else {
           groupInfo.data.slice(0, 5).forEach(g => {
