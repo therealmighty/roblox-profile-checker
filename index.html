@@ -56,6 +56,14 @@
   <script>
     const backendURL = "https://roblox-backend-rugl.onrender.com";
 
+    async function fetchJSON(url, options) {
+      const res = await fetch(url, options);
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status} at ${url}`);
+      }
+      return res.json();
+    }
+
     async function search() {
       const username = document.getElementById("username").value.trim();
       const output = document.getElementById("output");
@@ -68,13 +76,12 @@
 
       try {
         // Step 1: Get user ID from backend
-        const res = await fetch(`${backendURL}/api/userid`, {
+        const userData = await fetchJSON(`${backendURL}/api/userid`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ usernames: [username] }),
         });
 
-        const userData = await res.json();
         if (!userData.data || userData.data.length === 0) {
           output.textContent = "User not found.";
           return;
@@ -84,8 +91,8 @@
 
         // Step 2: Get user info and groups from backend
         const [userInfo, groupInfo] = await Promise.all([
-          fetch(`${backendURL}/api/user/${userId}`).then(r => r.json()),
-          fetch(`${backendURL}/api/groups/${userId}`).then(r => r.json())
+          fetchJSON(`${backendURL}/api/user/${userId}`),
+          fetchJSON(`${backendURL}/api/groups/${userId}`)
         ]);
 
         // Step 3: Format and display output
@@ -107,7 +114,7 @@
         output.textContent = result;
 
       } catch (err) {
-        output.textContent = "Error fetching data.";
+        output.textContent = `Error fetching data: ${err.message}`;
         console.error(err);
       }
     }
