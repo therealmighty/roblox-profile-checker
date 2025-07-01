@@ -75,8 +75,6 @@
     }
 
     async function fetchExtraInfo(userId) {
-      const output = document.getElementById("output");
-
       const friends = await safeFetch(`${backendURL}/api/friends/${userId}`);
       const badges = await safeFetch(`${backendURL}/api/badges/${userId}`);
       const presence = await safeFetch(`${backendURL}/api/presence/${userId}`);
@@ -142,7 +140,7 @@
         extraInfo += "\n🔹 Groups: Unable to fetch\n";
       }
 
-      output.textContent += extraInfo;
+      return extraInfo;
     }
 
     async function search() {
@@ -181,9 +179,9 @@
 📄 Bio: ${userInfo.description || "None"}
 📅 Account Created: ${new Date(userInfo.created).toLocaleDateString()}`;
 
-        output.textContent = result;
+        const extra = await fetchExtraInfo(userId);
 
-        await fetchExtraInfo(userId);
+        output.textContent = result + extra;
 
       } catch (err) {
         output.textContent = `Error fetching data: ${err.message}`;
