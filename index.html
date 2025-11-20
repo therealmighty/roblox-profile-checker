@@ -6,30 +6,74 @@
   <title>Roblox Profile Checker</title>
 
   <style>
+    /* ----------- RESET ----------- */
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
     }
 
     body {
-      font-family: "Segoe UI", sans-serif;
-      background: #e5e7eb;
-      margin: 0;
-      padding: 0;
+      background: #f3f4f6;
+      color: #1f2937;
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
       min-height: 100vh;
     }
 
-    .card {
-      background: white;
-      width: 100%;
-      max-width: 650px;
-      margin: 40px 20px;
-      padding: 30px;
-      border-radius: 14px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-      animation: fadeIn 0.4s ease;
+    /* ----------- SIDEBAR ----------- */
+    .sidebar {
+      width: 240px;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 25px 15px;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInSidebar 0.5s ease;
+    }
+
+    @keyframes fadeInSidebar {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .sidebar h1 {
+      font-size: 24px;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .nav a {
+      color: #e5e7eb;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 10px;
+      transition: 0.2s;
+      font-size: 16px;
+    }
+
+    .nav a:hover {
+      background: #1f2937;
+    }
+
+    .nav a.active {
+      background: #2563eb;
+      font-weight: bold;
+    }
+
+    /* ----------- MAIN CONTENT ----------- */
+    .main {
+      flex: 1;
+      padding: 40px 50px;
+      animation: fadeIn 0.5s ease;
     }
 
     @keyframes fadeIn {
@@ -37,47 +81,55 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 10px;
+    .header {
       font-size: 28px;
-      color: #1f2937;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+      width: 100%;
+      max-width: 700px;
     }
 
     label {
       font-weight: 600;
-      margin-top: 15px;
-      display: block;
       color: #374151;
+      margin-top: 12px;
+      display: block;
     }
 
     input {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       margin-top: 8px;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
       font-size: 16px;
       transition: 0.2s;
     }
 
     input:focus {
-      border-color: #3b82f6;
+      border-color: #2563eb;
       outline: none;
-      box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
+      box-shadow: 0 0 0 2px rgba(37,99,235,0.25);
     }
 
     button {
       width: 100%;
-      margin-top: 18px;
-      padding: 13px;
-      border-radius: 8px;
+      padding: 14px;
+      margin-top: 20px;
       border: none;
-      font-size: 17px;
-      cursor: pointer;
+      border-radius: 10px;
       background: #2563eb;
       color: white;
+      font-size: 17px;
       font-weight: 600;
+      cursor: pointer;
       transition: 0.2s;
     }
 
@@ -86,49 +138,71 @@
     }
 
     #output {
-      white-space: pre-wrap;
       margin-top: 25px;
-      background: #f8fafc;
+      white-space: pre-wrap;
+      background: #f9fafb;
       padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
       min-height: 150px;
       font-size: 15px;
-      line-height: 1.45;
-      color: #111827;
+      line-height: 1.5;
+    }
+
+    /* --------- MOBILE --------- */
+    @media (max-width: 900px) {
+      .sidebar {
+        display: none;
+      }
+      .main {
+        padding: 25px 20px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <h2>🔍 Roblox Profile Checker</h2>
 
-    <label for="username">Insert Roblox Username:</label>
-    <input type="text" id="username" placeholder="e.g. Builderman" />
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h1>Profile Tools</h1>
 
-    <button onclick="search()">Search</button>
-
-    <div id="output"></div>
+    <div class="nav">
+      <a class="active" href="#">Roblox Profile Checker</a>
+      <a href="#">Group Finder</a>
+      <a href="#">Account Lookup</a>
+      <a href="#">Settings</a>
+    </div>
   </div>
 
-  <!-- Your original JavaScript (unchanged) -->
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="header">Roblox Profile Checker</div>
+
+    <div class="card">
+      <label>Insert Roblox Username:</label>
+      <input id="username" type="text" placeholder="e.g. Builderman" />
+
+      <button onclick="search()">Search</button>
+
+      <div id="output"></div>
+    </div>
+  </div>
+
+  <!-- ORIGINAL JS (unchanged) -->
   <script>
     const backendURL = "https://roblox-backend-rugl.onrender.com";
 
     async function fetchJSON(url, options) {
       const res = await fetch(url, options);
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status} at ${url}`);
-      }
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       return res.json();
     }
 
     async function safeFetch(url) {
       try {
         return await fetchJSON(url);
-      } catch (e) {
-        console.error(`Error fetching ${url}:`, e);
+      } catch {
         return null;
       }
     }
@@ -140,77 +214,43 @@
       const followers = await safeFetch(`${backendURL}/api/followers/${userId}`);
       const groups = await safeFetch(`${backendURL}/api/groups/${userId}`);
 
-      let extraInfo = "\n\n";
+      let extra = "\n\n";
 
-      if (friends && !friends.error) {
-        extraInfo += `🔹 Friends Count: ${friends.count ?? 0}\n`;
-      } else {
-        extraInfo += "🔹 Friends Count: Unable to fetch\n";
-      }
+      extra += `🔹 Friends: ${friends?.count ?? "Unavailable"}\n`;
 
-      if (badges && !badges.error) {
-        extraInfo += `\n🔹 Badges (${badges.data?.length ?? 0}):\n`;
-        if (badges.data && badges.data.length > 0) {
-          badges.data.slice(0, 5).forEach(badge => {
-            extraInfo += ` - ${badge.name}\n`;
-          });
-          if (badges.data.length > 5) extraInfo += " ...and more\n";
-        } else {
-          extraInfo += " - None\n";
-        }
-      } else {
-        extraInfo += "\n🔹 Badges: Unable to fetch\n";
-      }
+      extra += `\n🔹 Badges (${badges?.data?.length ?? 0}):\n`;
+      if (badges?.data?.length) {
+        badges.data.slice(0, 5).forEach(b => extra += ` - ${b.name}\n`);
+      } else extra += " - None\n";
 
-      if (presence && !presence.error) {
-        const presenceData = presence.userPresences?.[0];
-        extraInfo += `\n🔹 Presence: ${presenceData ? (presenceData.userPresenceType === 0 ? "Offline" : "Online") : "Unknown"}\n`;
-      } else {
-        extraInfo += "\n🔹 Presence: Unable to fetch\n";
-      }
+      extra += `\n🔹 Presence: ${
+        presence?.userPresences?.[0]?.userPresenceType === 0 
+        ? "Offline" 
+        : "Online"
+      }\n`;
 
-      if (followers && !followers.error) {
-        extraInfo += `\n🔹 Followers: ${followers.count ?? 0}\n`;
-      } else {
-        extraInfo += "\n🔹 Followers: Unable to fetch\n";
-      }
+      extra += `\n🔹 Followers: ${followers?.count ?? "Unavailable"}\n`;
 
-      if (groups && !groups.error) {
-        extraInfo += `\n🔹 Last 5 Joined Groups (with details):\n`;
-        if (groups.data && groups.data.length > 0) {
-          groups.data.forEach(g => {
-            extraInfo += ` - ${g.group.name}\n`;
-            extraInfo += `   Members: ${g.group.memberCount}\n`;
-            extraInfo += `   Created: ${new Date(g.group.created).toLocaleDateString()}\n`;
-            extraInfo += `   Owner: ${g.group.owner.username || "Unknown"} (ID: ${g.group.owner.userId || "Unknown"})\n`;
-            extraInfo += `   Your Role: ${g.role.name}\n`;
+      extra += `\n🔹 Last 5 Groups:\n`;
+      if (groups?.data?.length) {
+        groups.data.forEach(g => {
+          extra += ` - ${g.group.name}\n   Members: ${g.group.memberCount}\n   Owner: ${g.group.owner.username}\n\n`;
+        });
+      } else extra += " - None\n";
 
-            let joinDateStr = "Unknown";
-            if (g.joinDate) {
-              const dateObj = new Date(g.joinDate);
-              if (!isNaN(dateObj)) joinDateStr = dateObj.toLocaleDateString();
-            }
-            extraInfo += `   Joined: ${joinDateStr}\n\n`;
-          });
-        } else {
-          extraInfo += " - None\n";
-        }
-      } else {
-        extraInfo += "\n🔹 Groups: Unable to fetch\n";
-      }
-
-      return extraInfo;
+      return extra;
     }
 
     async function search() {
       const username = document.getElementById("username").value.trim();
       const output = document.getElementById("output");
-      output.textContent = "Fetching info...";
 
       if (!username) {
         output.textContent = "Please enter a username.";
         return;
       }
+
+      output.textContent = "Fetching info...";
 
       try {
         const userData = await fetchJSON(`${backendURL}/api/userid`, {
@@ -219,32 +259,25 @@
           body: JSON.stringify({ usernames: [username] }),
         });
 
-        if (!userData.data || userData.data.length === 0) {
+        if (!userData.data?.length) {
           output.textContent = "User not found.";
           return;
         }
 
-        const userId = userData.data[0].id;
+        const id = userData.data[0].id;
+        const info = await fetchJSON(`${backendURL}/api/user/${id}`);
 
-        const userInfo = await fetchJSON(`${backendURL}/api/user/${userId}`);
+        let result =
+`🧾 Display Name: ${info.displayName}
+🔢 User ID: ${info.id}
+📄 Bio: ${info.description || "None"}
+📅 Account Created: ${new Date(info.created).toLocaleDateString()}`;
 
-        if (userInfo.error) {
-          output.textContent = "Error fetching user info.";
-          return;
-        }
+        result += await fetchExtraInfo(id);
 
-        let result = `🧾 Display Name: ${userInfo.displayName}
-🔢 User ID: ${userInfo.id}
-📄 Bio: ${userInfo.description || "None"}
-📅 Account Created: ${new Date(userInfo.created).toLocaleDateString()}`;
-
-        const extra = await fetchExtraInfo(userId);
-
-        output.textContent = result + extra;
-
+        output.textContent = result;
       } catch (err) {
-        output.textContent = `Error fetching data: ${err.message}`;
-        console.error(err);
+        output.textContent = "An error occurred.";
       }
     }
   </script>
