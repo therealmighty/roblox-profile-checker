@@ -1,74 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Roblox Profile Dashboard</title>
+  <title>Roblox Profile Dashboard (Expanded)</title>
   <style>
-    /* --- Reset & fonts --- */
-    * { box-sizing: border-box; }
-    :root{
-      --bg:#0f1721; --panel:#0b1220; --muted:#94a3b8; --accent:#2563eb; --card:#071029;
-      --light-bg:#f3f4f6; --text-dark:#0f1721;
-    }
-    body{ margin:0; font-family: Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial; background: var(--light-bg); color: var(--text-dark); }
-    .app { display:flex; min-height:100vh; }
-
-    /* Sidebar */
-    .sidebar { width:230px; background: #0b1220; color:#e6eef8; padding:22px; display:flex; flex-direction:column; gap:18px; }
-    .brand { font-weight:700; font-size:18px; text-align:center; }
-    .nav { display:flex; flex-direction:column; gap:8px; }
-    .nav button { background:transparent; border:0; color:#cfe3ff; text-align:left; padding:10px; border-radius:8px; cursor:pointer; font-size:14px; }
-    .nav button.active{ background:#12263b; color:white; font-weight:600; }
-
-    /* Main content */
-    .main { flex:1; padding:28px; }
-    .toprow { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px; }
-    .searchbar { display:flex; gap:10px; align-items:center; }
-    .input { padding:12px 14px; border-radius:10px; border:1px solid #dbe7ff; width:320px; outline:none; }
-    .btn { padding:10px 14px; border-radius:10px; border:0; background:var(--accent); color:white; cursor:pointer; font-weight:600; }
-
-    /* Layout cards */
-    .grid { display:grid; grid-template-columns: 320px 1fr; gap:18px; align-items:start; }
-    .card { background:white; padding:18px; border-radius:12px; box-shadow:0 8px 20px rgba(15,23,42,0.06); }
-    .profile-avatar { display:flex; flex-direction:column; align-items:center; gap:12px; }
-    .avatar-img { width:160px; height:160px; border-radius:12px; object-fit:cover; background:#f3f4f6; }
-    .small { font-size:13px; color:#6b7280; }
-
-    /* Tabs and sections */
-    .tabs { display:flex; gap:8px; margin-top:10px; }
-    .tab { padding:8px 12px; border-radius:8px; background:#f1f5f9; cursor:pointer; font-weight:600; }
-    .tab.active { background:var(--accent); color:white; }
-
-    /* lists */
-    .list { display:flex; flex-direction:column; gap:10px; margin-top:10px; }
-    .list-item { display:flex; gap:12px; align-items:center; padding:8px; border-radius:8px; border:1px solid #eef2ff; }
-    .thumb { width:48px; height:48px; border-radius:8px; background:#f3f4f6; object-fit:cover; }
-
-    /* badges grid */
-    .badges-grid { display:grid; grid-template-columns: repeat(auto-fill, 64px); gap:10px; margin-top:12px; }
-    .badge { width:64px; height:64px; border-radius:8px; background:#f8fafc; display:flex; align-items:center; justify-content:center; flex-direction:column; font-size:11px; text-align:center; padding:6px; border:1px solid #eef2ff; }
-
-    /* groups */
-    .group-row { display:flex; gap:12px; align-items:center; padding:8px; border-radius:8px; border:1px solid #eef2ff; }
-
-    /* skeleton */
-    .skeleton { background: linear-gradient(90deg,#e6eef8 25%, #f6fbff 50%, #e6eef8 75%); background-size:200% 100%; animation: sh 1.2s linear infinite; border-radius:8px; }
-    @keyframes sh{ from{background-position:200% 0;} to{background-position:-200% 0;} }
-
-    /* responsive */
-    @media (max-width:900px){
-      .sidebar{display:none;}
-      .grid{ grid-template-columns: 1fr; }
-      .input{width:160px;}
-    }
-
-    /* dark mode toggle */
-    .top-controls { display:flex; gap:8px; align-items:center; }
-    .mode-toggle { padding:8px 10px; border-radius:8px; border:1px solid #dbe7ff; cursor:pointer; background:white; }
-
-    /* small text */
-    .muted{ color:#6b7280; font-size:13px; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, "Segoe UI", Roboto, Arial;background:#f3f4f6;color:#0f1721}
+    .app{display:flex;min-height:100vh}
+    .sidebar{width:240px;background:#0b1220;color:#e6eef8;padding:22px;display:flex;flex-direction:column}
+    .brand{text-align:center;font-weight:700;margin-bottom:14px}
+    .nav{display:flex;flex-direction:column;gap:8px}
+    .nav button{background:transparent;border:0;color:#cfe3ff;padding:10px;border-radius:8px;text-align:left;cursor:pointer}
+    .nav button.active{background:#12263b;color:white;font-weight:600}
+    .main{flex:1;padding:24px}
+    .toprow{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .input{padding:10px 12px;border-radius:10px;border:1px solid #dbe7ff;width:360px}
+    .btn{padding:10px 12px;border-radius:10px;border:0;background:#2563eb;color:white;cursor:pointer}
+    .grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
+    .card{background:white;padding:18px;border-radius:12px;box-shadow:0 8px 20px rgba(15,23,42,0.06)}
+    .avatar{width:200px;height:200px;border-radius:12px;object-fit:cover;background:#f3f4f6}
+    .muted{color:#6b7280;font-size:13px}
+    .small{font-size:13px;color:#475569}
+    .tabs{display:flex;gap:8px;margin-top:10px}
+    .tab{padding:8px 12px;border-radius:8px;background:#f1f5f9;cursor:pointer;font-weight:600}
+    .tab.active{background:#2563eb;color:white}
+    .list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    .list-item{display:flex;gap:12px;align-items:center;padding:8px;border-radius:8px;border:1px solid #eef2ff}
+    .thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;background:#f3f4f6}
+    .badges-grid{display:grid;grid-template-columns:repeat(auto-fill,72px);gap:10px;margin-top:12px}
+    .badge{width:72px;height:72px;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:11px;text-align:center;padding:6px;border:1px solid #eef2ff}
+    .skeleton{background:linear-gradient(90deg,#e6eef8 25%, #f6fbff 50%, #e6eef8 75%);background-size:200% 100%;animation:sh 1.2s linear infinite;border-radius:8px}
+    @keyframes sh{from{background-position:200% 0}to{background-position:-200% 0}}
+    @media(max-width:900px){.sidebar{display:none}.grid{grid-template-columns:1fr}.input{width:160px}}
   </style>
 </head>
 <body>
@@ -81,410 +45,324 @@
         <button data-tab="badges">Badges</button>
         <button data-tab="friends">Friends</button>
         <button data-tab="followers">Followers</button>
+        <button data-tab="games">Games</button>
         <button data-tab="settings">Settings</button>
       </div>
-      <div style="margin-top:auto; font-size:13px; color:#9fb7d7; text-align:center;">
-        Hosted: your-backend
-      </div>
+      <div style="margin-top:auto;font-size:13px;color:#9fb7d7;text-align:center">Hosted: your-backend</div>
     </aside>
 
     <main class="main">
       <div class="toprow">
-        <div class="searchbar">
-          <input id="usernameInput" class="input" placeholder="Enter Roblox username (e.g. Builderman)" />
+        <div style="display:flex;gap:10px;align-items:center">
+          <input id="usernameInput" class="input" placeholder="Roblox username (Builderman)" />
           <button id="searchBtn" class="btn">Search</button>
         </div>
-
-        <div class="top-controls">
-          <div class="mode-toggle" id="themeToggle">Dark Mode</div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="small muted" id="statusText">Ready</div>
         </div>
       </div>
 
       <div id="content">
         <div class="grid">
-          <!-- LEFT COLUMN: PROFILE CARD -->
-          <div class="card" id="leftCard">
-            <div class="profile-avatar" id="profileCardInner">
-              <div id="avatarSkeleton" style="width:160px; height:160px;" class="skeleton"></div>
-              <img id="avatarImg" class="avatar-img" style="display:none;" />
-              <div style="text-align:center;">
-                <div id="displayName" style="font-weight:700">—</div>
-                <div id="usernameSmall" class="small">—</div>
-                <div id="bio" class="muted" style="margin-top:8px">No bio loaded.</div>
+          <!-- left -->
+          <div class="card">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+              <div id="avatarWrap">
+                <div id="avatarSkeleton" class="skeleton" style="width:200px;height:200px;border-radius:12px"></div>
+                <img id="avatarImg" class="avatar" style="display:none" />
               </div>
 
-              <div style="width:100%; margin-top:12px;">
-                <div style="display:flex; gap:8px;">
-                  <div style="flex:1; text-align:center;">
+              <div style="text-align:center">
+                <div id="displayName" style="font-weight:700">—</div>
+                <div id="usernameSmall" class="muted">@—</div>
+                <div id="bio" class="muted" style="margin-top:8px">No bio</div>
+              </div>
+
+              <div style="width:100%;margin-top:12px">
+                <div style="display:flex;gap:12px">
+                  <div style="flex:1;text-align:center">
                     <div class="muted">Friends</div>
                     <div id="friendsCount" style="font-weight:700">—</div>
                   </div>
-                  <div style="flex:1; text-align:center;">
+                  <div style="flex:1;text-align:center">
                     <div class="muted">Followers</div>
                     <div id="followersCount" style="font-weight:700">—</div>
                   </div>
                 </div>
 
-                <div style="margin-top:12px;">
-                  <label class="small">Avatar Render</label>
-                  <div style="display:flex; gap:8px; margin-top:8px;">
-                    <button class="btn" style="flex:1" id="renderFull">Full</button>
-                    <button class="btn" style="flex:1; background:#6b7280" id="renderHead">Head</button>
-                  </div>
+                <div class="tabs" style="margin-top:12px">
+                  <div id="renderFull" class="tab active">Full</div>
+                  <div id="renderHead" class="tab">Head</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT COLUMN: Tabs content -->
-          <div>
-            <div class="card" id="tabContent">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div style="font-weight:700; font-size:18px;" id="panelTitle">Profile Overview</div>
-                <div class="small muted" id="accountAge">—</div>
-              </div>
-
-              <div id="profileOverview" style="margin-top:12px;">
-                <div id="profileSkeleton" class="skeleton" style="height:120px; border-radius:10px;"></div>
-                <div id="profileBody" style="display:none;">
-                  <div style="margin-top:8px;" id="profileFields"></div>
-                </div>
-              </div>
-
-              <!-- groups/badges/friends/followers sections will be injected here -->
-              <div id="dynamicSection" style="margin-top:16px;"></div>
+          <!-- right -->
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-weight:700;font-size:18px" id="panelTitle">Profile Overview</div>
+              <div class="muted" id="joinedText">—</div>
             </div>
+
+            <div id="panelBody" style="margin-top:12px">
+              <div id="profileMain" class="skeleton" style="height:120px;border-radius:10px"></div>
+              <div id="profileDetails" style="display:none;margin-top:12px"></div>
+            </div>
+
+            <div id="dynamic" style="margin-top:16px"></div>
           </div>
-        </div> <!-- end grid -->
+        </div>
       </div>
     </main>
   </div>
 
-  <script>
-    // -------------------------
-    // Configuration
-    // -------------------------
-    const BACKEND = "https://roblox-backend-rugl.onrender.com"; // keep your existing host
-    const elements = {
-      searchBtn: document.getElementById('searchBtn'),
-      usernameInput: document.getElementById('usernameInput'),
-      avatarImg: document.getElementById('avatarImg'),
-      avatarSkeleton: document.getElementById('avatarSkeleton'),
-      displayName: document.getElementById('displayName'),
-      usernameSmall: document.getElementById('usernameSmall'),
-      bio: document.getElementById('bio'),
-      friendsCount: document.getElementById('friendsCount'),
-      followersCount: document.getElementById('followersCount'),
-      profileSkeleton: document.getElementById('profileSkeleton'),
-      profileBody: document.getElementById('profileBody'),
-      profileFields: document.getElementById('profileFields'),
-      panelTitle: document.getElementById('panelTitle'),
-      accountAge: document.getElementById('accountAge'),
-      dynamicSection: document.getElementById('dynamicSection'),
-      renderFull: document.getElementById('renderFull'),
-      renderHead: document.getElementById('renderHead'),
-      themeToggle: document.getElementById('themeToggle'),
-      navButtons: document.querySelectorAll('.nav button'),
-      tabs: { profile: 'profile', groups: 'groups', badges: 'badges', friends: 'friends', followers: 'followers', settings: 'settings' },
-    };
+<script>
+const BACKEND = "https://roblox-backend-rugl.onrender.com";
+const navButtons = document.querySelectorAll('.nav button');
+const usernameInput = document.getElementById('usernameInput');
+const searchBtn = document.getElementById('searchBtn');
+const statusText = document.getElementById('statusText');
 
-    // UI state
-    let currentUserId = null;
-    let currentThumbs = { avatar: null, headshot: null };
-    let activeTab = 'profile';
-    let darkMode = false;
+let currentUserId = null;
+let avatarLarge = null, avatarHead = null;
+let activeTab = 'profile';
 
-    // -------------------------
-    // Utility fetch
-    // -------------------------
-    async function fetchJSON(url, options = {}) {
-      const res = await fetch(url, options);
-      if (!res.ok) throw new Error('Network error');
-      return res.json();
-    }
+// UI elements
+const avatarImg = document.getElementById('avatarImg');
+const avatarSkeleton = document.getElementById('avatarSkeleton');
+const displayNameEl = document.getElementById('displayName');
+const usernameSmallEl = document.getElementById('usernameSmall');
+const bioEl = document.getElementById('bio');
+const friendsCountEl = document.getElementById('friendsCount');
+const followersCountEl = document.getElementById('followersCount');
+const joinedText = document.getElementById('joinedText');
+const panelTitle = document.getElementById('panelTitle');
+const profileMain = document.getElementById('profileMain');
+const profileDetails = document.getElementById('profileDetails');
+const dynamic = document.getElementById('dynamic');
 
-    async function safeFetch(url, options = {}) {
-      try { return await fetchJSON(url, options); } catch (e) { console.error('fetch err', e); return null; }
-    }
+// nav handling
+navButtons.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    navButtons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTab = btn.dataset.tab;
+    renderDynamic();
+  });
+});
 
-    // -------------------------
-    // UI helpers
-    // -------------------------
-    function showSkeletons() {
-      elements.avatarSkeleton.style.display = '';
-      elements.avatarImg.style.display = 'none';
-      elements.profileSkeleton.style.display = '';
-      elements.profileBody.style.display = 'none';
-      elements.profileFields.innerHTML = '';
-      elements.dynamicSection.innerHTML = '';
-    }
+// search
+searchBtn.addEventListener('click', onSearch);
+usernameInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') onSearch(); });
 
-    function hideSkeletons() {
-      elements.avatarSkeleton.style.display = 'none';
-      elements.avatarImg.style.display = '';
-      elements.profileSkeleton.style.display = 'none';
-      elements.profileBody.style.display = '';
-    }
+async function fetchJSON(url, options){
+  const r = await fetch(url, options);
+  if(!r.ok) throw new Error('Network error');
+  return r.json();
+}
+async function safe(url, opts){ try{return await fetchJSON(url, opts);}catch(e){console.error(e);return null;} }
 
-    function setActiveNav(tab) {
-      activeTab = tab;
-      elements.navButtons.forEach(b => {
-        b.classList.toggle('active', b.dataset.tab === tab);
-      });
-      renderDynamicSection();
-    }
+function showLoading(){
+  avatarSkeleton.style.display='';
+  avatarImg.style.display='none';
+  profileMain.style.display='';
+  profileDetails.style.display='none';
+  dynamic.innerHTML='';
+}
+function hideLoading(){
+  avatarSkeleton.style.display='none';
+  avatarImg.style.display='';
+  profileMain.style.display='none';
+  profileDetails.style.display='';
+}
 
-    elements.navButtons.forEach(b => {
-      b.addEventListener('click', () => {
-        elements.navButtons.forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        setActiveNav(b.dataset.tab);
-      });
+async function onSearch(){
+  const username = usernameInput.value.trim();
+  if(!username) return alert('Enter username');
+  statusText.textContent = 'Resolving user...';
+  showLoading();
+  panelTitle.textContent = 'Profile Overview';
+  joinedText.textContent = '';
+
+  // resolve id
+  const userResp = await safe(`${BACKEND}/api/userid`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({usernames:[username]})});
+  if(!userResp || !userResp.data || !userResp.data.length){ alert('User not found'); statusText.textContent='Ready'; return; }
+  const id = userResp.data[0].id;
+  currentUserId = id;
+
+  statusText.textContent = 'Loading profile...';
+  const profile = await safe(`${BACKEND}/api/profile/${id}`);
+  if(!profile || profile.error){ alert('Failed to fetch profile'); statusText.textContent='Ready'; return; }
+
+  // populate left
+  displayNameEl.textContent = profile.user.displayName || profile.user.name;
+  usernameSmallEl.textContent = '@' + (profile.user.name || profile.user.username);
+  bioEl.textContent = profile.user.description || 'No bio';
+  friendsCountEl.textContent = profile.friends?.count ?? '—';
+  followersCountEl.textContent = profile.followers?.count ?? '—';
+
+  // joined
+  try{
+    const created = new Date(profile.user.created);
+    joinedText.textContent = created.toLocaleDateString();
+  }catch(e){ joinedText.textContent = ''; }
+
+  avatarLarge = profile.avatar || null;
+  avatarHead = profile.headshot || null;
+  if(avatarLarge) avatarImg.src = avatarLarge;
+  else if(avatarHead) avatarImg.src = avatarHead;
+  else avatarImg.src = '';
+
+  hideLoading();
+  statusText.textContent = 'Loaded';
+  renderDynamic();
+}
+
+// render dynamic content per tab
+async function renderDynamic(){
+  dynamic.innerHTML = '';
+  if(!currentUserId){ dynamic.innerHTML = '<div class="muted">Search for a user to view details.</div>'; return; }
+
+  if(activeTab === 'profile'){
+    panelTitle.textContent = 'Profile Overview';
+    const user = await safe(`${BACKEND}/api/user/${currentUserId}`);
+    const presence = await safe(`${BACKEND}/api/presence/${currentUserId}`);
+    const pres = (presence && presence.userPresences && presence.userPresences[0]) || null;
+
+    const html = `
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div><strong>Account:</strong> ${user?.name || '—'} (${user?.displayName || '—'})</div>
+        <div><strong>Created:</strong> ${user?.age ? user.age+' years' : new Date(user?.created).toLocaleDateString()}</div>
+        <div><strong>Presence:</strong> ${pres ? (pres.userPresenceType===0 ? 'Offline' : 'Online') : 'Unknown'}</div>
+        <div style="margin-top:8px"><strong>Bio:</strong><div class="muted" style="margin-top:6px">${user?.description || 'None'}</div></div>
+      </div>
+    `;
+    dynamic.innerHTML = html;
+  }
+
+  if(activeTab === 'groups'){
+    panelTitle.textContent = 'Groups';
+    const groups = await safe(`${BACKEND}/api/groups/${currentUserId}`);
+    if(!groups || groups.error){ dynamic.innerHTML = '<div class="muted">Failed to fetch groups.</div>'; return; }
+    const list = document.createElement('div'); list.className = 'list';
+    groups.data.forEach(g=>{
+      const node = document.createElement('div'); node.className='list-item';
+      node.innerHTML = `
+        <img class="thumb" src="${g.group.icon || ''}" onerror="this.style.display='none'"/>
+        <div style="flex:1">
+          <div style="font-weight:700">${g.group.name}</div>
+          <div class="muted">Role: ${g.role?.name || '—'} • Members: ${g.group.memberCount || '—'}</div>
+        </div>
+        <div class="muted">Joined: ${g.joinDate ? new Date(g.joinDate).toLocaleDateString() : '—'}</div>
+      `;
+      list.appendChild(node);
     });
+    dynamic.appendChild(list);
+  }
 
-    // -------------------------
-    // Main search flow
-    // -------------------------
-    elements.searchBtn.addEventListener('click', onSearch);
-    elements.usernameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') onSearch(); });
+  if(activeTab === 'badges'){
+    panelTitle.textContent = 'Badges';
+    const resp = await safe(`${BACKEND}/api/badges/${currentUserId}?limit=200`);
+    if(!resp || resp.error){ dynamic.innerHTML = '<div class="muted">Failed to fetch badges.</div>'; return; }
+    const container = document.createElement('div');
+    container.innerHTML = `<div style="font-weight:700;margin-bottom:8px">Badges (${resp.count})</div>`;
+    const grid = document.createElement('div'); grid.className='badges-grid';
+    resp.data.forEach(b=>{
+      const n = document.createElement('div'); n.className='badge';
+      n.innerHTML = `<img src="${b.icon||''}" style="width:40px;height:40px;object-fit:contain" onerror="this.style.display='none'"/><div style="margin-top:6px">${b.name}</div>`;
+      grid.appendChild(n);
+    });
+    container.appendChild(grid);
+    dynamic.appendChild(container);
+  }
 
-    async function onSearch(){
-      const username = elements.usernameInput.value.trim();
-      if (!username) return alert('Enter a username');
+  if(activeTab === 'friends'){
+    panelTitle.textContent = 'Friends (combined)';
+    const resp = await safe(`${BACKEND}/api/friends/list/${currentUserId}`);
+    if(!resp || resp.error){ dynamic.innerHTML = '<div class="muted">Failed to fetch friends.</div>'; return; }
+    const list = document.createElement('div'); list.className='list';
+    resp.data.slice(0,200).forEach(u=>{
+      const item = document.createElement('div'); item.className='list-item';
+      item.innerHTML = `<img class="thumb" src="${u.thumbnail||''}" onerror="this.style.display='none'"/><div style="flex:1"><div style="font-weight:700">${u.displayName||u.username}</div><div class="muted">@${u.username||''}</div></div>`;
+      list.appendChild(item);
+    });
+    dynamic.appendChild(list);
+  }
 
-      showSkeletons();
-      elements.panelTitle.textContent = 'Profile Overview';
-      elements.accountAge.textContent = '';
-
-      // 1) resolve user id
-      const userResp = await safeFetch(`${BACKEND}/api/userid`, {
-        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({usernames: [username]})
-      });
-
-      if (!userResp || !userResp.data || !userResp.data.length) {
-        alert('User not found');
-        hideSkeletons();
-        return;
-      }
-
-      const userId = userResp.data[0].id;
-      currentUserId = userId;
-
-      // 2) call aggregated profile endpoint (fast)
-      const profile = await safeFetch(`${BACKEND}/api/profile/${userId}`);
-      if (!profile || profile.error) {
-        alert('Failed to load profile');
-        hideSkeletons();
-        return;
-      }
-
-      // populate UI fields
-      elements.displayName.textContent = profile.user.displayName || profile.user.name;
-      elements.usernameSmall.textContent = `@${profile.user.name || profile.user.username}`;
-      elements.bio.textContent = profile.user.description || 'No bio.';
-      elements.friendsCount.textContent = profile.friends?.count ?? '—';
-      elements.followersCount.textContent = profile.followers?.count ?? '—';
-
-      // account age
-      try {
-        const created = new Date(profile.user.created);
-        const ageDays = Math.floor((Date.now() - created.getTime()) / (1000*60*60*24));
-        elements.accountAge.textContent = `${ageDays} days old`;
-      } catch(e){ elements.accountAge.textContent = ''; }
-
-      // thumbnails
-      currentThumbs.avatar = profile.avatar || null;
-      currentThumbs.headshot = profile.headshot || null;
-      if (currentThumbs.avatar) elements.avatarImg.src = currentThumbs.avatar;
-      else elements.avatarImg.src = '';
-
-      hideSkeletons();
-
-      renderDynamicSection();
-    }
-
-    // -------------------------
-    // Dynamic section renderer
-    // -------------------------
-    async function renderDynamicSection(){
-      const userId = currentUserId;
-      const section = elements.dynamicSection;
-      section.innerHTML = '';
-
-      if (!userId) {
-        section.innerHTML = `<div class="muted">Search for a user to view details.</div>`;
-        return;
-      }
-
-      if (activeTab === 'profile') {
-        // show basic profile fields (joined, status)
-        const profile = await safeFetch(`${BACKEND}/api/user/${userId}`);
-        const pres = await safeFetch(`${BACKEND}/api/presence/${userId}`);
-        const presence = (pres && pres.userPresences && pres.userPresences[0]) || null;
-
-        const frag = document.createElement('div');
-        frag.innerHTML = `
-          <div style="display:flex; gap:12px; flex-direction:column;">
-            <div><strong>Joined:</strong> ${new Date(profile.created).toLocaleDateString()}</div>
-            <div><strong>Status:</strong> ${presence ? (presence.userPresenceType === 0 ? 'Offline' : 'Online') : 'Unknown'}</div>
-            <div style="margin-top:8px;"><strong>Bio:</strong><div class="muted" style="margin-top:6px">${profile.description || 'None'}</div></div>
-          </div>
-        `;
-        section.appendChild(frag);
-      }
-
-      if (activeTab === 'groups') {
-        const groupsResp = await safeFetch(`${BACKEND}/api/groups/${userId}`);
-        if (!groupsResp || groupsResp.error) {
-          section.innerHTML = `<div class="muted">Unable to fetch groups.</div>`;
-          return;
+  if(activeTab === 'followers'){
+    panelTitle.textContent = 'Followers';
+    // initial page
+    const resp = await safe(`${BACKEND}/api/followers/list/${currentUserId}?limit=50`);
+    if(!resp || resp.error){ dynamic.innerHTML = '<div class="muted">Failed to fetch followers.</div>'; return; }
+    const list = document.createElement('div'); list.className='list';
+    resp.data.forEach(u=>{
+      const item = document.createElement('div'); item.className='list-item';
+      item.innerHTML = `<img class="thumb" src="${u.thumbnail||''}" onerror="this.style.display='none'"/><div style="flex:1"><div style="font-weight:700">${u.username||'—'}</div><div class="muted">ID: ${u.id}</div></div>`;
+      list.appendChild(item);
+    });
+    dynamic.appendChild(list);
+    if(resp.nextPageCursor){
+      const btn = document.createElement('button'); btn.className='btn'; btn.textContent='Load more followers';
+      btn.style.marginTop='10px';
+      btn.onclick = async ()=>{
+        btn.disabled = true; btn.textContent = 'Loading...';
+        const more = await safe(`${BACKEND}/api/followers/list/${currentUserId}?limit=50&cursor=${resp.nextPageCursor}`);
+        if(more && more.data){
+          more.data.forEach(u=>{
+            const item = document.createElement('div'); item.className='list-item';
+            item.innerHTML = `<img class="thumb" src="${u.thumbnail||''}" onerror="this.style.display='none'"/><div style="flex:1"><div style="font-weight:700">${u.username||'—'}</div><div class="muted">ID: ${u.id}</div></div>`;
+            list.appendChild(item);
+          });
         }
-        const list = document.createElement('div');
-        list.className = 'list';
-        groupsResp.data.forEach(g => {
-          const row = document.createElement('div');
-          row.className = 'group-row';
-          row.innerHTML = `
-            <div style="flex:0 0 60px;">
-              <img src="https://thumbnails.roblox.com/v1/groups/icons?groupIds=${g.group.id}&size=48x48&format=png" class="thumb" />
-            </div>
-            <div style="flex:1;">
-              <div style="font-weight:700">${g.group.name}</div>
-              <div class="small muted">Role: ${g.role?.name || '—'} — Members: ${g.group.memberCount || '—'}</div>
-            </div>
-            <div style="text-align:right;">
-              <div class="small muted">Joined: ${g.joinDate ? new Date(g.joinDate).toLocaleDateString() : 'Unknown'}</div>
-            </div>
-          `;
-          list.appendChild(row);
-        });
-        section.appendChild(list);
-      }
-
-      if (activeTab === 'badges') {
-        const badgesResp = await safeFetch(`${BACKEND}/api/badges/${userId}`);
-        if (!badgesResp || badgesResp.error) {
-          section.innerHTML = `<div class="muted">Unable to fetch badges.</div>`;
-          return;
-        }
-        const container = document.createElement('div');
-        container.innerHTML = `<div style="font-weight:700;">Badges (${badgesResp.count})</div>`;
-        const grid = document.createElement('div');
-        grid.className = 'badges-grid';
-        badgesResp.data.slice(0, 30).forEach(b => {
-          const node = document.createElement('div');
-          node.className = 'badge';
-          const img = document.createElement('img');
-          img.src = b.icon || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAA...'; // fallback tiny blank
-          img.style.width = '40px';
-          img.style.height = '40px';
-          img.style.objectFit = 'contain';
-          const nm = document.createElement('div');
-          nm.textContent = b.name;
-          nm.style.marginTop = '6px';
-          nm.style.fontSize = '11px';
-          node.appendChild(img);
-          node.appendChild(nm);
-          grid.appendChild(node);
-        });
-        container.appendChild(grid);
-        section.appendChild(container);
-      }
-
-      if (activeTab === 'friends') {
-        const resp = await safeFetch(`${BACKEND}/api/friends/list/${userId}`);
-        if (!resp || resp.error) {
-          section.innerHTML = `<div class="muted">Unable to fetch friends.</div>`;
-          return;
-        }
-        const list = document.createElement('div'); list.className = 'list';
-        resp.data.slice(0,50).forEach(u => {
-          const item = document.createElement('div'); item.className = 'list-item';
-          item.innerHTML = `
-            <img class="thumb" src="${u.thumbnail || ''}" onerror="this.style.display='none'"/>
-            <div style="flex:1">
-              <div style="font-weight:700">${u.displayName || u.username}</div>
-              <div class="small muted">@${u.username || ''}</div>
-            </div>
-            <div style="text-align:right;">
-              <div class="small muted">${u.presence ? (u.presence.userPresenceType === 0 ? 'Offline' : 'Online') : 'Unknown'}</div>
-            </div>
-          `;
-          list.appendChild(item);
-        });
-        section.appendChild(list);
-      }
-
-      if (activeTab === 'followers') {
-        const resp = await safeFetch(`${BACKEND}/api/followers/list/${userId}`);
-        if (!resp || resp.error) { section.innerHTML = `<div class="muted">Unable to fetch followers.</div>`; return; }
-        const list = document.createElement('div'); list.className = 'list';
-        resp.data.slice(0,50).forEach(u => {
-          const item = document.createElement('div'); item.className = 'list-item';
-          item.innerHTML = `
-            <img class="thumb" src="${u.thumbnail || ''}" onerror="this.style.display='none'"/>
-            <div style="flex:1">
-              <div style="font-weight:700">${u.username || '—'}</div>
-              <div class="small muted">ID: ${u.id}</div>
-            </div>
-          `;
-          list.appendChild(item);
-        });
-        section.appendChild(list);
-      }
-
-      if (activeTab === 'settings') {
-        const node = document.createElement('div');
-        node.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px;">
-          <div><strong>Theme</strong></div>
-          <div><button id="toggleThemeBtn" class="btn">Toggle Dark/Light</button></div>
-          <div style="margin-top:8px;" class="muted">Avatar renders use Roblox thumbnails API via the backend.</div>
-        </div>`;
-        section.appendChild(node);
-        document.getElementById('toggleThemeBtn').addEventListener('click', toggleTheme);
-      }
+        btn.disabled = false; btn.textContent = 'Load more followers';
+      };
+      dynamic.appendChild(btn);
     }
+  }
 
-    // -------------------------
-    // Avatar render controls
-    // -------------------------
-    elements.renderFull.addEventListener('click', () => {
-      if (currentThumbs.avatar) elements.avatarImg.src = currentThumbs.avatar;
+  if(activeTab === 'games'){
+    panelTitle.textContent = 'Games (recent)';
+    const resp = await safe(`${BACKEND}/api/games/${currentUserId}`);
+    if(!resp || resp.error){ dynamic.innerHTML = '<div class="muted">Failed to fetch games.</div>'; return; }
+    const list = document.createElement('div'); list.className='list';
+    resp.data.forEach(g=>{
+      const item = document.createElement('div'); item.className='list-item';
+      item.innerHTML = `<div style="flex:1"><div style="font-weight:700">${g.rootPlace?.name || g.name || 'Unknown'}</div><div class="muted">${g.rootPlace?.id ? 'Place ID: '+g.rootPlace.id : ''}</div></div><div class="muted">Visits: ${g.visits ?? '—'}</div>`;
+      list.appendChild(item);
     });
-    elements.renderHead.addEventListener('click', () => {
-      if (currentThumbs.headshot) elements.avatarImg.src = currentThumbs.headshot;
-    });
+    dynamic.appendChild(list);
+  }
 
-    // -------------------------
-    // Theme handling
-    // -------------------------
-    function applyDarkMode(on){
-      if (on){
-        document.documentElement.style.setProperty('--light-bg','#071427');
-        document.body.style.background = '#071427';
-        // invert card styles by adding a class or inline style adjustments
-        document.querySelectorAll('.card').forEach(c => { c.style.background = '#071427'; c.style.color = '#e6eef8'; c.style.boxShadow = '0 8px 20px rgba(0,0,0,0.6)'; });
-      } else {
-        document.body.style.background = '#f3f4f6';
-        document.querySelectorAll('.card').forEach(c => { c.style.background = 'white'; c.style.color = '#111827'; c.style.boxShadow = '0 8px 20px rgba(15,23,42,0.06)'; });
-      }
-      darkMode = on;
-    }
+  if(activeTab === 'settings'){
+    panelTitle.textContent = 'Settings';
+    dynamic.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px"><div><strong>Theme</strong></div><div><button id="toggleTheme" class="btn">Toggle Dark Mode</button></div><div class="muted">Avatar renders use Roblox thumbnails via the backend.</div></div>`;
+    document.getElementById('toggleTheme').addEventListener('click', toggleTheme);
+  }
+}
 
-    elements.themeToggle.addEventListener('click', () => toggleTheme());
+// render avatar controls
+document.getElementById('renderFull').addEventListener('click', ()=>{ if(avatarLarge) avatarImg.src = avatarLarge; });
+document.getElementById('renderHead').addEventListener('click', ()=>{ if(avatarHead) avatarImg.src = avatarHead; });
 
-    function toggleTheme(){
-      applyDarkMode(!darkMode);
-    }
+let dark=false;
+function toggleTheme(){
+  dark=!dark;
+  if(dark){
+    document.body.style.background='#071427';
+    document.querySelectorAll('.card').forEach(c=>{ c.style.background='#071427'; c.style.color='#e6eef8'; c.style.boxShadow='0 8px 20px rgba(0,0,0,0.6)'; });
+  } else {
+    document.body.style.background='#f3f4f6';
+    document.querySelectorAll('.card').forEach(c=>{ c.style.background='white'; c.style.color=''; c.style.boxShadow='0 8px 20px rgba(15,23,42,0.06)'; });
+  }
+}
 
-    // Initialize
-    setActiveNav('profile');
-    applyDarkMode(false);
+// connect search Enter
+usernameInput.addEventListener('keyup', (e)=>{ if(e.key==='Enter') onSearch(); });
 
-    // Allow pressing Enter on input
-    document.getElementById('usernameInput').addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') onSearch();
-    });
-  </script>
+async function onSearch(){
+  await window.searchBtn.click(); // shim - handled above - but keep for safe
+}
+</script>
 </body>
 </html>
